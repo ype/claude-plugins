@@ -197,7 +197,7 @@ task validate
 ```
 prompt-quality-advisor/
 ├── .claude-plugin/
-│   └── marketplace.json         # Marketplace metadata for plugin installation
+│   └── plugin.json              # Plugin metadata (required for installation)
 ├── commands/
 │   ├── analyze-prompt.md        # /analyze-prompt command
 │   └── prompt-report.md         # /prompt-report command
@@ -211,7 +211,7 @@ prompt-quality-advisor/
 ├── config/
 │   ├── rules.json               # Team rules
 │   └── thresholds.json          # Quality thresholds
-├── plugin.json                  # Plugin manifest
+├── plugin.json                  # Plugin manifest (also at root)
 └── Taskfile.yml                 # Build tasks
 ```
 

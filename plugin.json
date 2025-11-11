@@ -1,0 +1,21 @@
+{
+  "name": "prompt-quality-advisor",
+  "version": "1.0.0",
+  "description": "Analyzes prompt quality and provides advisory feedback for optimal Claude Code interactions",
+  "author": {
+    "name": "Engineering Team"
+  },
+  "license": "MIT",
+  "commands": "./commands",
+  "mcpServers": {
+    "prompt-advisor": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/mcp-server/dist/index.js"],
+      "env": {
+        "PLUGIN_ROOT": "${CLAUDE_PLUGIN_ROOT}",
+        "RULES_PATH": "${CLAUDE_PLUGIN_ROOT}/config/rules.json",
+        "METRICS_PATH": "${HOME}/.claude/prompt-metrics.jsonl"
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "token": {
+    "optimalMin": 100,
+    "optimalMax": 3000,
+    "warningThreshold": 4000
+  },
+  "pattern": {
+    "requireExamplesForImplementation": true,
+    "maxExamples": 5,
+    "minExampleLength": 50
+  },
+  "clarity": {
+    "requireExplicitRequirements": true,
+    "vaguePhrases": [
+      "add feature",
+      "make it better",
+      "improve",
+      "fix it",
+      "update"
+    ]
+  },
+  "context": {
+    "maxRedundancy": 0.3,
+    "minRelevance": 0.5
+  }
+}

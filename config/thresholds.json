@@ -1,0 +1,12 @@
+{
+  "qualityScore": {
+    "excellent": 9,
+    "good": 7,
+    "acceptable": 5,
+    "poor": 3
+  },
+  "recommendations": {
+    "blockThreshold": 0,
+    "warningThreshold": 5
+  }
+}

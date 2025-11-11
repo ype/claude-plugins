@@ -1,0 +1,65 @@
+version: '3'
+
+tasks:
+  build:
+    desc: Build the MCP server
+    dir: mcp-server
+    cmds:
+      - npm install
+      - npm run build
+
+  clean:
+    desc: Clean build artifacts
+    dir: mcp-server
+    cmds:
+      - npm run clean
+      - rm -rf node_modules
+
+  test:
+    desc: Run tests
+    dir: mcp-server
+    cmds:
+      - npm test
+
+  test:watch:
+    desc: Run tests in watch mode
+    dir: mcp-server
+    cmds:
+      - npm test -- --watch
+
+  validate:
+    desc: Validate plugin configuration
+    cmds:
+      - claude plugin validate .
+
+  install:
+    desc: Install plugin locally for testing
+    deps: [build]
+    cmds:
+      - claude plugin install .
+
+  uninstall:
+    desc: Uninstall plugin
+    cmds:
+      - claude plugin uninstall prompt-quality-advisor
+
+  reinstall:
+    desc: Reinstall plugin (clean install)
+    cmds:
+      - task: uninstall
+      - task: clean
+      - task: install
+
+  package:
+    desc: Package for distribution
+    deps: [build, test, validate]
+    cmds:
+      - echo "Plugin ready for distribution"
+      - echo "Files:"
+      - find . -type f -not -path '*/node_modules/*' -not -path '*/dist/*' -not -path '*/.git/*'
+
+  dev:
+    desc: Development mode - watch and rebuild
+    dir: mcp-server
+    cmds:
+      - npm run watch

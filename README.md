@@ -14,19 +14,18 @@ Advisory tool that analyzes prompt quality and provides feedback for optimal Cla
 
 ### Method 1: From GitHub Repository (Recommended)
 
-```bash
-# Add the GitHub repository as a marketplace
-/plugin marketplace add ype/prompt-quality-advisor
-
-# Install the plugin
-/plugin install prompt-quality-advisor
-```
-
-Or use the combined command:
+Install directly from the GitHub repository:
 
 ```bash
 /plugin add ype/prompt-quality-advisor
 ```
+
+This single command will:
+- Fetch the plugin from GitHub
+- Build the MCP server
+- Install and activate the plugin
+
+**Note**: Do not use `/plugin marketplace add` for individual plugins. That command is for adding collections of multiple plugins, not single plugin repositories.
 
 ### Method 2: Local Development
 
@@ -249,17 +248,26 @@ Metrics are stored in JSONL format at `~/.claude/prompt-metrics.jsonl`:
 
 ### Plugin Installation Issues
 
-If you encounter "Marketplace file not found" error:
+If installation fails, try these steps:
 
 ```bash
-# Ensure the repository has the latest version with .claude-plugin/marketplace.json
-# Pull the latest changes if installing from a local clone
+# Uninstall any previous version
+/plugin uninstall prompt-quality-advisor
+
+# Reinstall from GitHub
+/plugin add ype/prompt-quality-advisor
+```
+
+If installing from a local clone:
+
+```bash
+# Ensure you have the latest version
+cd prompt-quality-advisor
 git pull origin main
 
-# Or reinstall from GitHub
-/plugin marketplace remove ype/prompt-quality-advisor
-/plugin marketplace add ype/prompt-quality-advisor
-/plugin install prompt-quality-advisor
+# Build and install
+task build
+task install
 ```
 
 ### Plugin not loading

@@ -1,6 +1,6 @@
 {
   "name": "prompt-quality-advisor",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Analyzes prompt quality and provides advisory feedback for optimal Claude Code interactions",
   "author": {
     "name": "Engineering Team"

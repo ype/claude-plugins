@@ -40,6 +40,8 @@ Once the marketplace is added, install individual plugins:
 /plugin install prompt-quality-advisor
 ```
 
+**Note**: The plugin automatically builds during installation. This process compiles the TypeScript source to JavaScript and may take a few seconds.
+
 ### Verify Installation
 
 Check that the plugin is installed and active:
@@ -246,6 +248,29 @@ If you get "Marketplace not found" error:
 /plugin uninstall prompt-quality-advisor
 /plugin install prompt-quality-advisor
 ```
+
+### MCP Server Not Starting (MODULE_NOT_FOUND)
+
+If you see `Error: Cannot find module '.../mcp-server/dist/index.js'` in the logs:
+
+**Cause**: The TypeScript source wasn't built during installation (affects versions < 1.1.0).
+
+**Solution**: Reinstall the plugin to trigger automatic build:
+
+```bash
+/plugin uninstall prompt-quality-advisor
+/plugin install prompt-quality-advisor
+```
+
+**Manual Fix** (if reinstall doesn't work):
+
+```bash
+cd ~/.claude/plugins/marketplaces/claude-plugins/plugins/prompt-quality-advisor/mcp-server
+npm install
+npm run build
+```
+
+**Note**: As of version 1.1.0, the plugin automatically builds during installation via the `prepare` script.
 
 ### Build Failures
 

@@ -2,64 +2,61 @@ version: '3'
 
 tasks:
   build:
-    desc: Build the MCP server
-    dir: mcp-server
+    desc: Build all plugins
+    cmds:
+      - task: build:prompt-quality-advisor
+
+  build:prompt-quality-advisor:
+    desc: Build Prompt Quality Advisor plugin
+    dir: plugins/prompt-quality-advisor/mcp-server
     cmds:
       - npm install
       - npm run build
 
   clean:
-    desc: Clean build artifacts
-    dir: mcp-server
+    desc: Clean all plugin build artifacts
     cmds:
-      - npm run clean
+      - task: clean:prompt-quality-advisor
+
+  clean:prompt-quality-advisor:
+    desc: Clean Prompt Quality Advisor build artifacts
+    dir: plugins/prompt-quality-advisor/mcp-server
+    cmds:
+      - npm run clean || true
       - rm -rf node_modules
 
   test:
-    desc: Run tests
-    dir: mcp-server
+    desc: Run tests for all plugins
+    cmds:
+      - task: test:prompt-quality-advisor
+
+  test:prompt-quality-advisor:
+    desc: Run tests for Prompt Quality Advisor
+    dir: plugins/prompt-quality-advisor/mcp-server
     cmds:
       - npm test
 
   test:watch:
-    desc: Run tests in watch mode
-    dir: mcp-server
+    desc: Run tests in watch mode for Prompt Quality Advisor
+    dir: plugins/prompt-quality-advisor/mcp-server
     cmds:
       - npm test -- --watch
 
   validate:
-    desc: Validate plugin configuration
+    desc: Validate marketplace configuration
     cmds:
-      - claude plugin validate .
+      - echo "Validating marketplace structure..."
+      - test -f .claude-plugin/marketplace.json && echo "✓ marketplace.json exists" || (echo "✗ marketplace.json missing" && exit 1)
+      - test -d plugins && echo "✓ plugins directory exists" || (echo "✗ plugins directory missing" && exit 1)
 
   install:
-    desc: Install plugin locally for testing
-    deps: [build]
+    desc: Add marketplace and install plugins locally
     cmds:
-      - claude plugin install .
-
-  uninstall:
-    desc: Uninstall plugin
-    cmds:
-      - claude plugin uninstall prompt-quality-advisor
-
-  reinstall:
-    desc: Reinstall plugin (clean install)
-    cmds:
-      - task: uninstall
-      - task: clean
-      - task: install
-
-  package:
-    desc: Package for distribution
-    deps: [build, test, validate]
-    cmds:
-      - echo "Plugin ready for distribution"
-      - echo "Files:"
-      - find . -type f -not -path '*/node_modules/*' -not -path '*/dist/*' -not -path '*/.git/*'
+      - echo "This is a marketplace - add it with /plugin marketplace add ."
+      - echo "Then install plugins with /plugin install prompt-quality-advisor"
 
   dev:
-    desc: Development mode - watch and rebuild
-    dir: mcp-server
+    desc: Development mode for Prompt Quality Advisor
+    dir: plugins/prompt-quality-advisor/mcp-server
     cmds:
       - npm run watch

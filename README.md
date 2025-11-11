@@ -1,9 +1,14 @@
-# Prompt Quality Advisor
+# Claude Code Plugins
 
-Advisory tool that analyzes prompt quality and provides feedback for optimal Claude Code interactions.
+A curated marketplace of Claude Code plugins to enhance your development workflows.
 
-## Features
+## Available Plugins
 
+### Prompt Quality Advisor
+
+Analyzes prompt quality and provides advisory feedback for optimal Claude Code interactions.
+
+**Features:**
 - **Token Analysis**: Evaluates context window usage across different Claude models
 - **Pattern Detection**: Checks for code examples and implementation patterns
 - **Clarity Assessment**: Analyzes requirement specificity and vagueness
@@ -12,55 +17,42 @@ Advisory tool that analyzes prompt quality and provides feedback for optimal Cla
 
 ## Installation
 
-### Method 1: From GitHub Repository (Recommended)
+### Add the Marketplace
 
-Install directly from the GitHub repository:
-
-```bash
-/plugin add ype/prompt-quality-advisor
-```
-
-This single command will:
-- Fetch the plugin from GitHub
-- Build the MCP server
-- Install and activate the plugin
-
-**Note**: Do not use `/plugin marketplace add` for individual plugins. That command is for adding collections of multiple plugins, not single plugin repositories.
-
-### Method 2: Local Development
-
-For development or customization:
+First, add this marketplace to your Claude Code installation:
 
 ```bash
-# Clone the repository
-git clone https://github.com/ype/prompt-quality-advisor.git
-cd prompt-quality-advisor
-
-# Build and install locally
-task build
-task install
+/plugin marketplace add ype/prompt-quality-advisor
 ```
 
-Or install directly from the local directory:
+Or using the full GitHub URL:
 
 ```bash
-# From within the plugin directory
-/plugin install .
+/plugin marketplace add https://github.com/ype/prompt-quality-advisor
 ```
 
-### Verification
+### Install Plugins
 
-After installation, verify the plugin is active:
+Once the marketplace is added, install individual plugins:
+
+```bash
+# Install the Prompt Quality Advisor
+/plugin install prompt-quality-advisor
+```
+
+### Verify Installation
+
+Check that the plugin is installed and active:
 
 ```bash
 /plugin list
 ```
 
-You should see `prompt-quality-advisor` in the list of installed plugins.
-
 ## Usage
 
-### Analyze a Prompt
+### Prompt Quality Advisor
+
+#### Analyze a Prompt
 
 Before submitting a complex prompt, check its quality:
 
@@ -93,7 +85,7 @@ Recommendations:
 3. Include adjacent code for integration context
 ```
 
-### View Quality Report
+#### View Quality Report
 
 See your recent prompt quality metrics:
 
@@ -130,9 +122,9 @@ Top Recommendations:
 
 ## Configuration
 
-### Customizing Rules
+### Customizing Plugin Settings
 
-Edit `config/rules.json` to adjust team-specific thresholds:
+Each plugin can be customized. For Prompt Quality Advisor, edit `plugins/prompt-quality-advisor/config/rules.json`:
 
 ```json
 {
@@ -157,184 +149,137 @@ Edit `config/rules.json` to adjust team-specific thresholds:
 }
 ```
 
-### Model Context Limits
-
-The plugin automatically adjusts thresholds based on the Claude model:
-
-- `claude-sonnet-4.5`: 1M tokens
-- `claude-opus-4`: 200K tokens
-- `claude-sonnet-4`: 200K tokens
-- `claude-haiku-4`: 200K tokens
-
 ## Development
 
-### Build
+### Building from Source
+
+Clone the repository:
 
 ```bash
+git clone https://github.com/ype/prompt-quality-advisor.git
+cd prompt-quality-advisor
+```
+
+Build a specific plugin:
+
+```bash
+cd plugins/prompt-quality-advisor
 task build
 ```
 
-### Test
+### Testing Plugins
+
+Run tests for a plugin:
 
 ```bash
+cd plugins/prompt-quality-advisor
 task test
 ```
 
-### Watch Mode
+### Local Installation
+
+Install a plugin locally for development:
 
 ```bash
-task dev
+cd plugins/prompt-quality-advisor
+task install
 ```
 
-### Validate
+Or use the Taskfile at the root:
 
 ```bash
-task validate
+task install  # Builds and installs all plugins
 ```
 
-## Architecture
+## Marketplace Structure
 
 ```
-prompt-quality-advisor/
+claude-plugins/
 ├── .claude-plugin/
-│   └── plugin.json              # Plugin metadata (required for installation)
-├── commands/
-│   ├── analyze-prompt.md        # /analyze-prompt command
-│   └── prompt-report.md         # /prompt-report command
-├── mcp-server/
-│   ├── src/
-│   │   ├── index.ts             # MCP server entry
-│   │   ├── analyzers/           # Analysis modules
-│   │   ├── rules/               # Configuration loading
-│   │   └── storage/             # Metrics tracking
-│   └── dist/                    # Compiled output
-├── config/
-│   ├── rules.json               # Team rules
-│   └── thresholds.json          # Quality thresholds
-├── plugin.json                  # Plugin manifest (also at root)
-└── Taskfile.yml                 # Build tasks
-```
-
-## How It Works
-
-1. **Analysis**: When you run `/analyze-prompt`, the plugin examines your prompt across four dimensions:
-   - Token count and context window usage
-   - Code example presence and quality
-   - Requirement clarity and specificity
-   - Context relevance and redundancy
-
-2. **Scoring**: Each analyzer assigns a score (0-10) based on configured rules
-
-3. **Aggregation**: Overall score is calculated using weighted average:
-   - Token: 30%
-   - Pattern: 25%
-   - Clarity: 25%
-   - Context: 20%
-
-4. **Recommendations**: Actionable suggestions are generated based on detected issues
-
-5. **Tracking**: Metrics are stored in `~/.claude/prompt-metrics.jsonl` for trend analysis
-
-## Metrics Storage
-
-Metrics are stored in JSONL format at `~/.claude/prompt-metrics.jsonl`:
-
-```jsonl
-{"timestamp":"2025-11-09T10:30:00Z","overallScore":8,"tokenScore":9,"patternScore":8,"clarityScore":7,"contextScore":8,"recommendations":["Add explicit requirements"]}
-{"timestamp":"2025-11-09T14:15:00Z","overallScore":6,"tokenScore":7,"patternScore":4,"clarityScore":6,"contextScore":8,"recommendations":["Show code examples","Specify requirements"]}
+│   └── marketplace.json         # Marketplace registry
+├── plugins/
+│   └── prompt-quality-advisor/  # Individual plugin
+│       ├── .claude-plugin/
+│       │   └── plugin.json      # Plugin metadata
+│       ├── commands/            # Slash commands
+│       ├── mcp-server/          # MCP server implementation
+│       ├── config/              # Plugin configuration
+│       └── plugin.json          # Plugin manifest
+├── README.md
+└── Taskfile.yml
 ```
 
 ## Troubleshooting
 
-### Plugin Installation Issues
+### Marketplace Not Found
 
-If installation fails, try these steps:
-
-```bash
-# Uninstall any previous version
-/plugin uninstall prompt-quality-advisor
-
-# Reinstall from GitHub
-/plugin add ype/prompt-quality-advisor
-```
-
-If installing from a local clone:
+If you get "Marketplace not found" error:
 
 ```bash
-# Ensure you have the latest version
-cd prompt-quality-advisor
-git pull origin main
+# Remove any old marketplace references
+/plugin marketplace remove ype/prompt-quality-advisor
 
-# Build and install
-task build
-task install
+# Re-add the marketplace
+/plugin marketplace add ype/prompt-quality-advisor
 ```
 
-### Plugin not loading
+### Plugin Installation Fails
+
+```bash
+# Ensure the marketplace is added first
+/plugin marketplace list
+
+# If not listed, add it
+/plugin marketplace add ype/prompt-quality-advisor
+
+# Then install the plugin
+/plugin install prompt-quality-advisor
+```
+
+### Plugin Not Loading
 
 ```bash
 # Verify plugin is installed
 /plugin list
 
 # Reinstall if needed
-task reinstall
-```
-
-Or from Claude Code:
-
-```bash
 /plugin uninstall prompt-quality-advisor
-/plugin add ype/prompt-quality-advisor
+/plugin install prompt-quality-advisor
 ```
 
-### MCP server not starting
+### Build Failures
+
+For local development, ensure dependencies are installed:
 
 ```bash
-# Check logs
-tail -f ~/.claude/logs/prompt-advisor.log
-
-# Rebuild server
-task clean
-task build
-```
-
-### Commands not appearing
-
-```bash
-# Validate plugin structure
-task validate
-
-# Check commands directory
-ls -la commands/
+cd plugins/prompt-quality-advisor/mcp-server
+npm install
+npm run build
 ```
 
 ## Contributing
 
-### Adding New Analyzers
+### Adding New Plugins
 
-1. Create analyzer in `mcp-server/src/analyzers/`
-2. Implement the analyzer interface
-3. Register in `mcp-server/src/index.ts`
-4. Add configuration in `config/rules.json`
-5. Write tests
+1. Create a new directory under `plugins/`
+2. Add plugin structure with `.claude-plugin/plugin.json`
+3. Update `.claude-plugin/marketplace.json` to include the new plugin
+4. Test locally before submitting PR
 
-### Customizing for Your Stack
+### Plugin Structure Requirements
 
-Add stack-specific rules in `config/rules.json`:
-
-```json
-{
-  "clarity": {
-    "vaguePhrases": [
-      "add feature",
-      "make it better",
-      "fix the kubernetes issue",
-      "update the terraform"
-    ]
-  }
-}
-```
+Each plugin must have:
+- `.claude-plugin/plugin.json` - Plugin metadata
+- `plugin.json` - Plugin manifest (can be same as above)
+- Optional: `commands/`, `agents/`, `hooks/`, `skills/`
 
 ## License
 
 MIT
+
+## Support
+
+For issues or questions:
+- Open an issue on GitHub
+- Check the troubleshooting section above
+- Review plugin-specific documentation in `plugins/<plugin-name>/`

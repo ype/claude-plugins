@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Analyzes prompt quality and provides advisory feedback for optimal Claude Code interactions",
   "author": {
-    "name": "Engineering Team"
+    "name": "Anton Strilchuk <anton@env.sh>"
   },
   "license": "MIT",
   "commands": "./commands",

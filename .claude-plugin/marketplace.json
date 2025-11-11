@@ -1,0 +1,44 @@
+{
+  "name": "claude-plugins",
+  "owner": {
+    "name": "Engineering Team",
+    "email": "engineering@example.com"
+  },
+  "metadata": {
+    "description": "Collection of Claude Code plugins for enhanced development workflows",
+    "version": "1.0.0",
+    "homepage": "https://github.com/ype/prompt-quality-advisor",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "prompt-quality-advisor",
+      "version": "1.0.0",
+      "description": "Analyzes prompt quality and provides advisory feedback for optimal Claude Code interactions",
+      "author": {
+        "name": "Engineering Team"
+      },
+      "license": "MIT",
+      "keywords": [
+        "prompt",
+        "quality",
+        "analysis",
+        "advisor",
+        "mcp"
+      ],
+      "source": "./plugins/prompt-quality-advisor",
+      "commands": "./commands",
+      "mcpServers": {
+        "prompt-advisor": {
+          "command": "node",
+          "args": ["${CLAUDE_PLUGIN_ROOT}/mcp-server/dist/index.js"],
+          "env": {
+            "PLUGIN_ROOT": "${CLAUDE_PLUGIN_ROOT}",
+            "RULES_PATH": "${CLAUDE_PLUGIN_ROOT}/config/rules.json",
+            "METRICS_PATH": "${HOME}/.claude/prompt-metrics.jsonl"
+          }
+        }
+      }
+    }
+  ]
+}

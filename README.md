@@ -12,23 +12,52 @@ Advisory tool that analyzes prompt quality and provides feedback for optimal Cla
 
 ## Installation
 
-### From Team Marketplace
+### Method 1: From GitHub Repository (Recommended)
 
 ```bash
-# Add team marketplace (if not already added)
-claude plugin marketplace add ./tools/claude-marketplace
+# Add the GitHub repository as a marketplace
+/plugin marketplace add ype/prompt-quality-advisor
 
-# Install plugin
-claude plugin install prompt-quality-advisor@team-tools
+# Install the plugin
+/plugin install prompt-quality-advisor
 ```
 
-### Local Development
+Or use the combined command:
 
 ```bash
+/plugin add ype/prompt-quality-advisor
+```
+
+### Method 2: Local Development
+
+For development or customization:
+
+```bash
+# Clone the repository
+git clone https://github.com/ype/prompt-quality-advisor.git
+cd prompt-quality-advisor
+
 # Build and install locally
 task build
 task install
 ```
+
+Or install directly from the local directory:
+
+```bash
+# From within the plugin directory
+/plugin install .
+```
+
+### Verification
+
+After installation, verify the plugin is active:
+
+```bash
+/plugin list
+```
+
+You should see `prompt-quality-advisor` in the list of installed plugins.
 
 ## Usage
 
@@ -169,7 +198,7 @@ task validate
 ```
 prompt-quality-advisor/
 ├── .claude-plugin/
-│   └── plugin.json              # Plugin manifest
+│   └── marketplace.json         # Marketplace metadata for plugin installation
 ├── commands/
 │   ├── analyze-prompt.md        # /analyze-prompt command
 │   └── prompt-report.md         # /prompt-report command
@@ -183,6 +212,7 @@ prompt-quality-advisor/
 ├── config/
 │   ├── rules.json               # Team rules
 │   └── thresholds.json          # Quality thresholds
+├── plugin.json                  # Plugin manifest
 └── Taskfile.yml                 # Build tasks
 ```
 
@@ -217,14 +247,36 @@ Metrics are stored in JSONL format at `~/.claude/prompt-metrics.jsonl`:
 
 ## Troubleshooting
 
+### Plugin Installation Issues
+
+If you encounter "Marketplace file not found" error:
+
+```bash
+# Ensure the repository has the latest version with .claude-plugin/marketplace.json
+# Pull the latest changes if installing from a local clone
+git pull origin main
+
+# Or reinstall from GitHub
+/plugin marketplace remove ype/prompt-quality-advisor
+/plugin marketplace add ype/prompt-quality-advisor
+/plugin install prompt-quality-advisor
+```
+
 ### Plugin not loading
 
 ```bash
 # Verify plugin is installed
-claude plugin list
+/plugin list
 
 # Reinstall if needed
 task reinstall
+```
+
+Or from Claude Code:
+
+```bash
+/plugin uninstall prompt-quality-advisor
+/plugin add ype/prompt-quality-advisor
 ```
 
 ### MCP server not starting
